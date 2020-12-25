@@ -7,12 +7,10 @@ using VendyClovece.Backend;
 
 namespace VendyClovece.Graphics
 {
-    class DrawBoard
+    public class DrawBoard
     {
-        public static void Draw(SpriteBatchManager spriteBatchManager, Texture2D tileTexture, Vector2 origin, Board board)
+        public static void Draw(SpriteBatchManager spriteBatchManager, Texture2D tileTexture, Vector2 origin, Board board, float offset)
         {
-            var offset = tileTexture.Width;
-
             foreach (var tile in board.Tiles)
             {
                 Vector2 pos = new Vector2(origin.X + tile.Position.X * offset, origin.Y + tile.Position.Y * offset);
@@ -29,6 +27,19 @@ namespace VendyClovece.Graphics
             {
                 Vector2 pos = new Vector2(origin.X + tile.Position.X * offset, origin.Y + tile.Position.Y * offset);
                 spriteBatchManager.DrawCenter(tileTexture, pos, tile.BgColor);
+            }
+        }
+
+        public static void DrawPlayers(SpriteBatchManager spriteBatchManager, Vector2 origin, List<Pawn[]> players, float offset)
+        {
+            foreach (var player in players)
+            {
+                foreach (var pawn in player)
+                {
+                    var tile = pawn.CurrentTile;
+                    Vector2 pos = new Vector2(origin.X + tile.Position.X * offset, origin.Y + tile.Position.Y * offset);
+                    spriteBatchManager.DrawCenter(pawn.Texture, pos, pawn.DisplayColor);
+                }
             }
         }
     }

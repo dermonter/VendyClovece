@@ -1,28 +1,30 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using VendyClovece.UI;
 
 namespace VendyClovece.Backend
 {
-    class Board
+    public class Board
     {
-        public Color[] Players { get; private set; }
+        readonly Color[] playerColors;
         public Tile[] Tiles { get; private set; }
         public Tile[] EndTiles { get; private set; }
         public Tile[] StartTiles { get; private set; }
 
         public Board()
         {
-            Players = new Color[] { Color.Aquamarine, Color.DarkRed, Color.Yellow,Color.Lime };
+            playerColors = new Color[] { Color.Aquamarine, Color.DarkRed, Color.Yellow,Color.Lime };
             Tiles = new Tile[40];
             StartTiles = new Tile[16];
             EndTiles = new Tile[16];
 
             for (int i = 0; i < StartTiles.Length; i++)
             {
-                StartTiles[i] = new Tile(Players[i / 4]);
-                EndTiles[i] = new Tile(Players[i / 4]);
+                StartTiles[i] = new Tile(playerColors[i / 4]);
+                EndTiles[i] = new Tile(playerColors[i / 4]);
             }
 
             int playerIndex = 0;
@@ -30,13 +32,31 @@ namespace VendyClovece.Backend
             {
                 if (i % 10 == 0)
                 {
-                    Tiles[i] = new Tile(Players[playerIndex++]);
+                    Tiles[i] = new Tile(playerColors[playerIndex++]);
                     continue;
                 }
                 Tiles[i] = new Tile(Color.White);
             }
 
             SetTilePositions();
+        }
+
+        public List<Clickable> InitPlayers(List<Pawn[]> players, Texture2D pawnHitbox)
+        {
+            var result = new List<Clickable>();
+
+            int startTile = 0;
+            for (int j = 0; j < players.Count; j++)
+            {
+                for (int i = 0; i < players[j].Length; i++)
+                {
+                    var pawn = new Pawn(StartTiles[startTile++], playerColors[j], pawnHitbox);
+                    players[j][i] = pawn;
+                    result.Add(pawn);
+                }
+            }
+
+            return result;
         }
 
         public void SetTilePositions()

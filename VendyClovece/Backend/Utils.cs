@@ -1,11 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace VendyClovece.Backend
 {
-    class Utils
+    public class Utils
     {
         public static Vector2 RotateAroundOrigin(Vector2 point, Vector2 origin, float angle)
         {

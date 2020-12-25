@@ -5,7 +5,7 @@ using System.Text;
 
 namespace VendyClovece.Backend
 {
-    class Tile
+    public class Tile
     {
         public Color BgColor { get; private set; }
         public Vector2 Position { get; private set; }
