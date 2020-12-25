@@ -1,13 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using VendyClovece.Graphics;
 
 namespace VendyClovece
 {
     public class GameLogic : Game
     {
         private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        private SpriteBatchManager _spriteBatch;
+
+        private Texture2D tileTexture;
 
         public GameLogic()
         {
@@ -25,9 +28,10 @@ namespace VendyClovece
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatchManager(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            tileTexture = Content.Load<Texture2D>("tile");
         }
 
         protected override void Update(GameTime gameTime)
@@ -44,7 +48,11 @@ namespace VendyClovece
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            Vector2 center = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
             // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+            DrawBoard.Draw(_spriteBatch, tileTexture, center);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
