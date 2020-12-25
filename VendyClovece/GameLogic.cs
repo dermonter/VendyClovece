@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace VendyClovece
 {
-    public class Game1 : Game
+    public class GameLogic : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        public Game1()
+        public GameLogic()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
