@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using VendyClovece.Backend;
 using VendyClovece.Graphics;
 
 namespace VendyClovece
@@ -9,6 +10,8 @@ namespace VendyClovece
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatchManager _spriteBatch;
+
+        private Board board;
 
         private Texture2D tileTexture;
 
@@ -22,6 +25,7 @@ namespace VendyClovece
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            board = new Board();
 
             base.Initialize();
         }
@@ -51,7 +55,7 @@ namespace VendyClovece
             Vector2 center = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            DrawBoard.Draw(_spriteBatch, tileTexture, center);
+            DrawBoard.Draw(_spriteBatch, tileTexture, center, board);
             _spriteBatch.End();
 
             base.Draw(gameTime);

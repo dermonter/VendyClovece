@@ -3,14 +3,16 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using VendyClovece.Backend;
 
 namespace VendyClovece.Graphics
 {
     class DrawBoard
     {
-        public static void Draw(SpriteBatchManager spriteBatchManager, Texture2D tileTexture, Vector2 origin)
+        public static void Draw(SpriteBatchManager spriteBatchManager, Texture2D tileTexture, Vector2 origin, Board board)
         {
             var offset = tileTexture.Width;
+            int currTile = 0;
 
             for (int i = 0; i < 4; i++)
             {
@@ -22,18 +24,18 @@ namespace VendyClovece.Graphics
                 {
                     Vector2 pos = new Vector2(originX, originY + j * offset);
                     pos = RotateAroundOrigin(pos, origin, angle);
-                    spriteBatchManager.DrawCenter(tileTexture, pos, Color.White);
+                    spriteBatchManager.DrawCenter(tileTexture, pos, board.Tiles[currTile++]);
                 }
 
                 for (int j = 0; j < 4; j++)
                 {
                     Vector2 pos = new Vector2(originX + (j + 1) * offset, originY + offset * 4);
                     pos = RotateAroundOrigin(pos, origin, angle);
-                    spriteBatchManager.DrawCenter(tileTexture, pos, Color.White);
+                    spriteBatchManager.DrawCenter(tileTexture, pos, board.Tiles[currTile++]);
                 }
 
                 Vector2 lastPos = RotateAroundOrigin(new Vector2(originX + 4 * offset, originY + 5 * offset), origin, angle);
-                spriteBatchManager.DrawCenter(tileTexture, lastPos, Color.White);
+                spriteBatchManager.DrawCenter(tileTexture, lastPos, board.Tiles[currTile++]);
             }
         }
 
