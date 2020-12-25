@@ -14,6 +14,7 @@ namespace VendyClovece
         private Board board;
 
         private Texture2D tileTexture;
+        private Texture2D pawnTexture;
 
         public GameLogic()
         {
@@ -36,6 +37,7 @@ namespace VendyClovece
 
             // TODO: use this.Content to load your game content here
             tileTexture = Content.Load<Texture2D>("tile");
+            pawnTexture = Content.Load<Texture2D>("pawn");
         }
 
         protected override void Update(GameTime gameTime)

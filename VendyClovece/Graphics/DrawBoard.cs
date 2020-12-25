@@ -13,6 +13,7 @@ namespace VendyClovece.Graphics
         {
             var offset = tileTexture.Width;
             int currTile = 0;
+            int endTile = 0;
 
             for (int i = 0; i < 4; i++)
             {
@@ -36,6 +37,13 @@ namespace VendyClovece.Graphics
 
                 Vector2 lastPos = RotateAroundOrigin(new Vector2(originX + 4 * offset, originY + 5 * offset), origin, angle);
                 spriteBatchManager.DrawCenter(tileTexture, lastPos, board.Tiles[currTile++]);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    Vector2 endPos = new Vector2(originX - offset, originY + (j + 1) * offset);
+                    endPos = RotateAroundOrigin(endPos, origin, angle);
+                    spriteBatchManager.DrawCenter(tileTexture, endPos, board.EndTiles[endTile++]);
+                }
             }
         }
 
