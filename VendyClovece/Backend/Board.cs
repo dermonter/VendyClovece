@@ -10,15 +10,18 @@ namespace VendyClovece.Backend
         public Color[] Tiles { get; private set; }
         public Color[] Players { get; private set; }
         public Color[] EndTiles { get; private set; }
+        public Color[] StartTiles { get; private set; }
 
         public Board()
         {
             Players = new Color[] { Color.Aquamarine, Color.DarkRed, Color.Yellow, Color.Lime };
             Tiles = new Color[40];
+            StartTiles = new Color[16];
             EndTiles = new Color[16];
 
-            for (int i = 0; i < EndTiles.Length; i++)
+            for (int i = 0; i < StartTiles.Length; i++)
             {
+                StartTiles[i] = Players[i / 4];
                 EndTiles[i] = Players[i / 4];
             }
 
