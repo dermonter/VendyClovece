@@ -12,69 +12,24 @@ namespace VendyClovece.Graphics
         public static void Draw(SpriteBatchManager spriteBatchManager, Texture2D tileTexture, Vector2 origin, Board board)
         {
             var offset = tileTexture.Width;
-            int currTile = 0;
-            int endTile = 0;
-            int startTile = 0;
 
-            for (int i = 0; i < 4; i++)
+            foreach (var tile in board.Tiles)
             {
-                // Draw Game Tiles
-                float angle = (float)Math.PI / 2 * i;
-                float originX = origin.X + offset;
-                float originY = origin.Y - offset * 5;
-
-                for (int j = 0; j < 5; j++)
-                {
-                    Vector2 pos = new Vector2(originX, originY + j * offset);
-                    pos = RotateAroundOrigin(pos, origin, angle);
-                    spriteBatchManager.DrawCenter(tileTexture, pos, board.Tiles[currTile++]);
-                }
-
-                for (int j = 0; j < 4; j++)
-                {
-                    Vector2 pos = new Vector2(originX + (j + 1) * offset, originY + offset * 4);
-                    pos = RotateAroundOrigin(pos, origin, angle);
-                    spriteBatchManager.DrawCenter(tileTexture, pos, board.Tiles[currTile++]);
-                }
-
-                Vector2 lastPos = RotateAroundOrigin(new Vector2(originX + 4 * offset, originY + 5 * offset), origin, angle);
-                spriteBatchManager.DrawCenter(tileTexture, lastPos, board.Tiles[currTile++]);
-
-                // Draw End Tiles
-                for (int j = 0; j < 4; j++)
-                {
-                    Vector2 endPos = new Vector2(originX - offset, originY + (j + 1) * offset);
-                    endPos = RotateAroundOrigin(endPos, origin, angle);
-                    spriteBatchManager.DrawCenter(tileTexture, endPos, board.EndTiles[endTile++]);
-                }
-
-                // Draw Start Tiles
-                for (int j = 0; j < 4; j++)
-                {
-                    Vector2 startPos = new Vector2(originX + offset * (3 + j % 2), originY + offset * (j / 2));
-                    startPos = RotateAroundOrigin(startPos, origin, angle);
-                    spriteBatchManager.DrawCenter(tileTexture, startPos, board.EndTiles[startTile++]);
-                }
+                Vector2 pos = new Vector2(origin.X + tile.Position.X * offset, origin.Y + tile.Position.Y * offset);
+                spriteBatchManager.DrawCenter(tileTexture, pos, tile.BgColor);
             }
-        }
 
-        private static Vector2 RotateAroundOrigin(Vector2 point, Vector2 origin, float angle)
-        {
-            float s = (float)Math.Sin(angle);
-            float c = (float)Math.Cos(angle);
+            foreach (var tile in board.EndTiles)
+            {
+                Vector2 pos = new Vector2(origin.X + tile.Position.X * offset, origin.Y + tile.Position.Y * offset);
+                spriteBatchManager.DrawCenter(tileTexture, pos, tile.BgColor);
+            }
 
-            // translate point back to origin:
-            float px = point.X - origin.X;
-            float py = point.Y - origin.Y;
-
-            // rotate point
-            float xnew = px * c - py * s;
-            float ynew = px * s + py * c;
-
-            // translate point back:
-            px = xnew + origin.X;
-            py = ynew + origin.Y;
-            return new Vector2(px, py);
+            foreach (var tile in board.StartTiles)
+            {
+                Vector2 pos = new Vector2(origin.X + tile.Position.X * offset, origin.Y + tile.Position.Y * offset);
+                spriteBatchManager.DrawCenter(tileTexture, pos, tile.BgColor);
+            }
         }
     }
 }
