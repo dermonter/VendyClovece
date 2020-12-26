@@ -18,10 +18,11 @@ namespace VendyClovece.UI
         public override Vector2 Position => position;
         public override ClickableType Type => ClickableType.BUTTON;
 
-        public Button(Texture2D texture)
+        public Button(Texture2D texture, Vector2 position)
         {
             this.texture = texture;
             PenColor = Color.Black;
+            this.position = position;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatchManager spriteBatchManager)

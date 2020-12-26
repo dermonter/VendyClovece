@@ -13,14 +13,17 @@ namespace VendyClovece
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatchManager _spriteBatch;
+        private GameMaster _gameMaster;
 
         private Board board;
         private List<Pawn[]> players;
 
         private Texture2D tileTexture;
         private Texture2D pawnTexture;
+        private Texture2D diceTexture;
 
         private List<Clickable> clickables;
+        private List<Component> uiComponents;
 
         private float offset;
         private Vector2 origin;
@@ -30,8 +33,11 @@ namespace VendyClovece
         public GameLogic()
         {
             _graphics = new GraphicsDeviceManager(this);
+            _gameMaster = new GameMaster();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            clickables = new List<Clickable>();
+            uiComponents = new List<Component>();
             if (Instance != null)
                 throw new NullReferenceException("More than one instance found!!!");
             Instance = this;
@@ -48,12 +54,16 @@ namespace VendyClovece
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatchManager(GraphicsDevice);
-
-            clickables = new List<Clickable>();
             tileTexture = Content.Load<Texture2D>("tile");
             pawnTexture = Content.Load<Texture2D>("pawn");
+            diceTexture = Content.Load<Texture2D>("dice");
             offset = tileTexture.Width;
             origin = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
+
+            var diceButton = new Button(diceTexture, new Vector2(50, 50));
+            diceButton.Click += DiceButton_Click;
+            clickables.Add(diceButton);
+            uiComponents.Add(diceButton);
 
             players = new List<Pawn[]> { new Pawn[4], new Pawn[4] };
             var c = board.InitPlayers(players, pawnTexture);
@@ -61,8 +71,22 @@ namespace VendyClovece
 
             foreach (var clickable in clickables)
             {
-                clickable.Click += Pawn_Click;
+                switch (clickable.Type)
+                {
+                    case ClickableType.PAWN:
+                        clickable.Click += Pawn_Click;
+                        break;
+                    case ClickableType.BUTTON:
+                        break;
+                    default:
+                        break;
+                }
             }
+        }
+
+        private void DiceButton_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void Pawn_Click(object sender, EventArgs e)
@@ -94,6 +118,12 @@ namespace VendyClovece
             _spriteBatch.Begin();
             DrawBoard.Draw(_spriteBatch, tileTexture, origin, board, offset);
             DrawBoard.DrawPlayers(_spriteBatch, origin, players, offset);
+
+            foreach (var componenet in uiComponents)
+            {
+                componenet.Draw(gameTime, _spriteBatch);
+            }
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
