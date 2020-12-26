@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using VendyClovece.UI;
+using System.Linq;
 
 namespace VendyClovece.Backend
 {
@@ -23,8 +24,8 @@ namespace VendyClovece.Backend
 
             for (int i = 0; i < StartTiles.Length; i++)
             {
-                StartTiles[i] = new Tile(playerColors[i / 4]);
-                EndTiles[i] = new Tile(playerColors[i / 4]);
+                StartTiles[i] = new Tile(playerColors[i / 4], TileType.START);
+                EndTiles[i] = new Tile(playerColors[i / 4], TileType.END);
             }
 
             int playerIndex = 0;
@@ -32,16 +33,16 @@ namespace VendyClovece.Backend
             {
                 if (i % 10 == 0)
                 {
-                    Tiles[i] = new Tile(playerColors[playerIndex++]);
+                    Tiles[i] = new Tile(playerColors[playerIndex++], TileType.STARTBOARD);
                     continue;
                 }
-                Tiles[i] = new Tile(Color.White);
+                Tiles[i] = new Tile(Color.White, TileType.NORMAL);
             }
 
             SetTilePositions();
         }
 
-        public List<Clickable> InitPlayers(List<Pawn[]> players, Texture2D pawnHitbox)
+        public IEnumerable<Clickable> InitPlayers(List<Pawn[]> players, Texture2D pawnHitbox)
         {
             var result = new List<Clickable>();
 
@@ -106,6 +107,38 @@ namespace VendyClovece.Backend
                     StartTiles[startTile++].SetPosition(startPos);
                 }
             }
+        }
+
+        private int TileIndex(Tile[] tiles, Tile target) => Array.FindIndex(tiles, t => t.Id == target.Id);
+
+        public bool Move(Pawn pawn, int moveFor)
+        {
+            Tile currTile = pawn.CurrentTile;
+            int index = -1;
+
+            if (TileIndex(StartTiles, currTile) != -1)
+            {
+                if (moveFor == 6)
+                {
+                    pawn.CurrentTile = Tiles[pawn.PlayerId * 10];
+                    return true;
+                }
+                return false;
+            }
+
+            if (TileIndex(EndTiles, currTile) != -1)
+            {
+                return false;
+            }
+
+            if ((index = TileIndex(Tiles, currTile)) != -1)
+            {
+                int newTile = (index + moveFor) % Tiles.Length;
+                pawn.CurrentTile = Tiles[newTile];
+                return true;
+            }
+
+            return false;
         }
     }
 }

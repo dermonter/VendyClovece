@@ -8,7 +8,8 @@ namespace VendyClovece.Backend
     {
         private readonly Texture2D texture;
 
-        public Color PlayerColor { get; set; }
+        public int PlayerId { get; private set; }
+        public Color PlayerColor { get; private set; }
         public Color DisplayColor
         {
             get
@@ -24,11 +25,12 @@ namespace VendyClovece.Backend
         public override Texture2D Texture => texture;
         public override ClickableType Type => ClickableType.PAWN;
 
-        public Pawn(Tile tile, Color playerColor, Texture2D texture)
+        public Pawn(Tile tile, Color playerColor, Texture2D texture, int playerId)
         {
             CurrentTile = tile;
             PlayerColor = playerColor;
             this.texture = texture;
+            PlayerId = playerId;
         }
     }
 }

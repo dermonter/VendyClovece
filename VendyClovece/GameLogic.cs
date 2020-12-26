@@ -15,15 +15,12 @@ namespace VendyClovece
         private SpriteBatchManager _spriteBatch;
         private GameMaster _gameMaster;
 
-        private Board board;
-        private List<Pawn[]> players;
-
         private Texture2D tileTexture;
         private Texture2D pawnTexture;
         private Texture2D diceTexture;
 
-        private List<Clickable> clickables;
-        private List<Component> uiComponents;
+        private readonly List<Clickable> clickables;
+        private readonly List<Component> uiComponents;
 
         private float offset;
         private Vector2 origin;
@@ -46,7 +43,6 @@ namespace VendyClovece
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            board = new Board();
 
             base.Initialize();
         }
@@ -65,8 +61,7 @@ namespace VendyClovece
             clickables.Add(diceButton);
             uiComponents.Add(diceButton);
 
-            players = new List<Pawn[]> { new Pawn[4], new Pawn[4] };
-            var c = board.InitPlayers(players, pawnTexture);
+            var c = _gameMaster.InitPlayers(pawnTexture);
             clickables.AddRange(c);
 
             foreach (var clickable in clickables)
@@ -116,8 +111,8 @@ namespace VendyClovece
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            DrawBoard.Draw(_spriteBatch, tileTexture, origin, board, offset);
-            DrawBoard.DrawPlayers(_spriteBatch, origin, players, offset);
+            DrawBoard.Draw(_spriteBatch, tileTexture, origin, _gameMaster.Board, offset);
+            DrawBoard.DrawPlayers(_spriteBatch, origin, _gameMaster.Players, offset);
 
             foreach (var componenet in uiComponents)
             {
