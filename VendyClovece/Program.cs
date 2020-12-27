@@ -7,8 +7,8 @@ namespace VendyClovece
         [STAThread]
         static void Main()
         {
-            using (var game = new GameLogic())
-                game.Run();
+            using var game = new GameLogic();
+            game.Run();
         }
     }
 }

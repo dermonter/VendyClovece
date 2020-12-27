@@ -15,7 +15,7 @@ namespace VendyClovece.Backend
         public Board Board { get; private set; }
         public List<Pawn[]> Players { get; private set; }
 
-        Random generator;
+        readonly Random generator;
 
         public GameMaster()
         {

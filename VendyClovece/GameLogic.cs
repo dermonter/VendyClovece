@@ -11,9 +11,9 @@ namespace VendyClovece
 {
     public class GameLogic : Game
     {
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
         private SpriteBatchManager _spriteBatch;
-        private GameMaster _gameMaster;
+        private readonly GameMaster _gameMaster;
 
         private Texture2D tileTexture;
         private Texture2D pawnTexture;

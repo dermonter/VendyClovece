@@ -2,15 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using VendyClovece.UI;
-using System.Linq;
 
 namespace VendyClovece.Backend
 {
     public class Board
     {
-        private Func<Tile, Pawn> HasPawn;
+        private readonly Func<Tile, Pawn> HasPawn;
 
         readonly Color[] playerColors;
         public Tile[] Tiles { get; private set; }

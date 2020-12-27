@@ -10,7 +10,7 @@ namespace VendyClovece.UI
 {
     public class Button : Component
     {
-        private Texture2D texture;
+        private readonly Texture2D texture;
         private Vector2 position;
 
         public Color PenColor { get; set; }
