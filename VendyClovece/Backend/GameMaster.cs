@@ -23,16 +23,26 @@ namespace VendyClovece.Backend
             currentPlayer = 0;
             generator = new Random();
             Board = new Board();
-            Players = new List<Pawn[]> { new Pawn[4], new Pawn[4] };
+            Players = new List<Pawn[]> 
+            { 
+                new Pawn[4], 
+                new Pawn[4],
+                new Pawn[4]
+            };
         }
-        public void Roll()
+
+        private int DiceRoll() => generator.Next(1, 7);
+
+        public int Roll()
         {
             if (gameState != GameState.YOUR_TURN_NOT_ROLLED)
-                return;
+                return -1;
 
-            roll = generator.Next(1, 7);
+            roll = DiceRoll();
 
             gameState = GameState.YOUR_TURN_ROLLED;
+
+            return roll;
         }
 
         public void SelectPawn(Pawn pawn)
@@ -50,6 +60,21 @@ namespace VendyClovece.Backend
         public IEnumerable<Clickable> InitPlayers(Texture2D pawnHitbox)
         {
             return Board.InitPlayers(Players, pawnHitbox);
+        }
+
+        public void EmulateEnemy()
+        {
+            if (gameState != GameState.OPONENT_TURN)
+                return;
+
+            int rolled = DiceRoll();
+            Pawn randPawn = Players[currentPlayer][generator.Next(0, 4)];
+            Board.Move(randPawn, rolled);
+
+            currentPlayer = ++currentPlayer % Players.Count;
+
+            if (currentPlayer == 0)
+                gameState = GameState.YOUR_TURN_NOT_ROLLED;
         }
     }
 }

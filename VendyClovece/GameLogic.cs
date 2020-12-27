@@ -18,12 +18,15 @@ namespace VendyClovece
         private Texture2D tileTexture;
         private Texture2D pawnTexture;
         private Texture2D diceTexture;
+        private SpriteFont font;
 
         private readonly List<Clickable> clickables;
         private readonly List<Component> uiComponents;
 
         private float offset;
         private Vector2 origin;
+
+        private string rolledText;
 
         public static GameLogic Instance { get; private set; }
 
@@ -53,6 +56,7 @@ namespace VendyClovece
             tileTexture = Content.Load<Texture2D>("tile");
             pawnTexture = Content.Load<Texture2D>("pawn");
             diceTexture = Content.Load<Texture2D>("dice");
+            font = Content.Load<SpriteFont>("font");
             offset = tileTexture.Width;
             origin = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
 
@@ -81,14 +85,19 @@ namespace VendyClovece
 
         private void DiceButton_Click(object sender, EventArgs e)
         {
+            int rolled = _gameMaster.Roll();
 
+            if (rolled == -1)
+                return;
+
+            rolledText = rolled.ToString();
         }
 
         private void Pawn_Click(object sender, EventArgs e)
         {
             Pawn pawn = (Pawn)sender;
 
-            pawn.Clicked = true;
+            _gameMaster.SelectPawn(pawn);
         }
 
         protected override void Update(GameTime gameTime)
@@ -101,6 +110,8 @@ namespace VendyClovece
             {
                 clickable.Update(gameTime);
             }
+
+            _gameMaster.EmulateEnemy();
 
             base.Update(gameTime);
         }
@@ -118,6 +129,9 @@ namespace VendyClovece
             {
                 componenet.Draw(gameTime, _spriteBatch);
             }
+
+            if (!string.IsNullOrEmpty(rolledText))
+                _spriteBatch.DrawString(font, rolledText, new Vector2(50, 5), Color.Black);
 
             _spriteBatch.End();
 

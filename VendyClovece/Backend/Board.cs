@@ -51,7 +51,7 @@ namespace VendyClovece.Backend
             {
                 for (int i = 0; i < players[j].Length; i++)
                 {
-                    var pawn = new Pawn(StartTiles[startTile++], playerColors[j], pawnHitbox);
+                    var pawn = new Pawn(StartTiles[startTile++], playerColors[j], pawnHitbox, j);
                     players[j][i] = pawn;
                     result.Add(pawn);
                 }
