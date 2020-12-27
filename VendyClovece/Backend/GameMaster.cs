@@ -91,4 +91,11 @@ namespace VendyClovece.Backend
             return pawns.FirstOrDefault(p => p.CurrentTile.Id == tile.Id);
         }
     }
+
+    public enum GameState
+    {
+        YOUR_TURN_NOT_ROLLED,
+        YOUR_TURN_ROLLED,
+        OPONENT_TURN
+    }
 }

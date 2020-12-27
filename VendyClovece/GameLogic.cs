@@ -141,10 +141,9 @@ namespace VendyClovece
         public static Vector2 LocalToWorld(Vector2 local) => new Vector2(Instance.origin.X + Instance.offset * local.X, Instance.origin.Y + Instance.offset * local.Y);
     }
 
-    public enum GameState
+    public enum ProgramState
     {
-        YOUR_TURN_NOT_ROLLED,
-        YOUR_TURN_ROLLED,
-        OPONENT_TURN
+        MAIN_MENU,
+        GAME
     }
 }
