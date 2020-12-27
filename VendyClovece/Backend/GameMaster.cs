@@ -26,7 +26,6 @@ namespace VendyClovece.Backend
             Players = new List<Pawn[]> 
             { 
                 new Pawn[4], 
-                new Pawn[4],
                 new Pawn[4]
             };
         }

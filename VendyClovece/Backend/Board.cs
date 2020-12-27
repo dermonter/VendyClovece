@@ -195,6 +195,8 @@ namespace VendyClovece.Backend
                     {
                         // skip a tile
                         newTile++;
+                        if (newTile % 10 == 0)
+                            newTile++;
                     }
                 }
                 targetTile = Tiles[newTile];
