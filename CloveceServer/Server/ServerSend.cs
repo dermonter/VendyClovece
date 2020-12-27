@@ -34,5 +34,30 @@ namespace CloveceServer.Server
             _buffer.WriteInt(_sendToPlayer);
             SendDataTo(_sendToPlayer, _buffer.ToArray());
         }
+
+        public static void PawnMoved(int _sendToPlayer, int pawnId)
+        {
+
+        }
+
+        public static void BoardState(int _sendToPlayer)
+        {
+
+        }
+
+        public static void Rolled(int _sendToPlayer)
+        {
+            using ByteBuffer _buffer = new ByteBuffer();
+            _buffer.WriteInt((int)ServerPackets.ROLLED);
+            var generator = new Random();
+            int rolled = generator.Next(1, 7);
+            _buffer.WriteInt(rolled);
+            SendDataTo(_sendToPlayer, _buffer.ToArray());
+        }
+
+        public static void GameState(int _sendToPlayer)
+        {
+
+        }
     }
 }

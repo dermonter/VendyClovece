@@ -15,7 +15,11 @@ namespace CloveceServer.Server
             Logger.Log(LogType.info1, "Initializing packets..");
             packets = new Dictionary<int, Packet>()
             {
-                { (int)ClientPackets.WELCOME_RECEIVED, WelcomeReceived }
+                { (int) ClientPackets.WELCOME_RECEIVED, WelcomeReceived },
+                { (int) ClientPackets.ROLL, Roll },
+                { (int) ClientPackets.GET_BOARD, GetBoard },
+                { (int) ClientPackets.SELECT_PAWN, SelectPawn },
+                { (int) ClientPackets.GET_GAMESTATE, GetGameState }
             };
         }
 
@@ -88,6 +92,51 @@ namespace CloveceServer.Server
             string _username = _buffer.ReadString();
 
             Logger.Log(LogType.info2, "Connection from " + Globals.clients[_playerId].Socket.Client.RemoteEndPoint + " was successful. Username: " + _username);
+        }
+
+        private static void Roll(int _playerId, byte[] _data)
+        {
+            using ByteBuffer _buffer = new ByteBuffer();
+            _buffer.WriteBytes(_data);
+            _buffer.ReadInt();
+
+            Logger.Log(LogType.info2, Globals.clients[_playerId].Socket.Client.RemoteEndPoint + " attemped roll");
+            // roll logic -> send packet to user back
+            // save rolled value
+            ServerSend.Rolled(_playerId);
+        }
+
+        private static void SelectPawn(int _playerId, byte[] _data)
+        {
+            using ByteBuffer _buffer = new ByteBuffer();
+            _buffer.WriteBytes(_data);
+            _buffer.ReadInt();
+
+            int pawnId = _buffer.ReadInt();
+
+            Logger.Log(LogType.info2, Globals.clients[_playerId].Socket.Client.RemoteEndPoint + " attemped to select a pawn");
+            // try selecting the pawn
+            // update the board and send back a response
+        }
+
+        private static void GetBoard(int _playerId, byte[] _data)
+        {
+            using ByteBuffer _buffer = new ByteBuffer();
+            _buffer.WriteBytes(_data);
+            _buffer.ReadInt();
+
+            Logger.Log(LogType.info2, "Received request to send boad state to " + Globals.clients[_playerId].Socket.Client.RemoteEndPoint);
+            // send board state back
+        }
+
+        private static void GetGameState(int _playerId, byte[] _data)
+        {
+            using ByteBuffer _buffer = new ByteBuffer();
+            _buffer.WriteBytes(_data);
+            _buffer.ReadInt();
+
+            Logger.Log(LogType.info2, "Received request to send game state to " + Globals.clients[_playerId].Socket.Client.RemoteEndPoint);
+            // send game state back
         }
     }
 }

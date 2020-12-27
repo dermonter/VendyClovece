@@ -1,5 +1,5 @@
-﻿using CloveceServer.Backend;
-using System;
+﻿using System;
+using VendyClovece.Backend;
 
 namespace VendyClovece.Client
 {
@@ -28,6 +28,35 @@ namespace VendyClovece.Client
             using ByteBuffer _buffer = new ByteBuffer();
             _buffer.WriteInt((int)ClientPackets.WELCOME_RECEIVED);
             _buffer.WriteString("Test player name");
+            SendDataToServer(_buffer.ToArray());
+        }
+
+        public static void Roll()
+        {
+            using ByteBuffer _buffer = new ByteBuffer();
+            _buffer.WriteInt((int)ClientPackets.ROLL);
+            SendDataToServer(_buffer.ToArray());
+        }
+
+        public static void SelectPawn(int pawnId)
+        {
+            using ByteBuffer _buffer = new ByteBuffer();
+            _buffer.WriteInt((int)ClientPackets.GET_BOARD);
+            _buffer.WriteInt(pawnId);
+            SendDataToServer(_buffer.ToArray());
+        }
+
+        public static void GetBoard()
+        {
+            using ByteBuffer _buffer = new ByteBuffer();
+            _buffer.WriteInt((int)ClientPackets.GET_BOARD);
+            SendDataToServer(_buffer.ToArray());
+        }
+
+        public static void GetGameState()
+        {
+            using ByteBuffer _buffer = new ByteBuffer();
+            _buffer.WriteInt((int)ClientPackets.GET_GAMESTATE);
             SendDataToServer(_buffer.ToArray());
         }
     }

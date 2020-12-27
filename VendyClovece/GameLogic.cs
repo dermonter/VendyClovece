@@ -26,7 +26,7 @@ namespace VendyClovece
         private float offset;
         private Vector2 origin;
 
-        private string rolledText;
+        private string rolledText => _gameMaster.roll == -1 ? null : _gameMaster.roll.ToString();
 
         public static GameLogic Instance { get; private set; }
 
@@ -85,12 +85,7 @@ namespace VendyClovece
 
         private void DiceButton_Click(object sender, EventArgs e)
         {
-            int rolled = _gameMaster.Roll();
-
-            if (rolled == -1)
-                return;
-
-            rolledText = rolled.ToString();
+            _gameMaster.Roll();
         }
 
         private void Pawn_Click(object sender, EventArgs e)

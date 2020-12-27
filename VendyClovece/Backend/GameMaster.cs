@@ -3,20 +3,21 @@ using System;
 using System.Collections.Generic;
 using VendyClovece.UI;
 using System.Linq;
+using VendyClovece.Client;
 
 namespace VendyClovece.Backend
 {
-    public class GameMaster
+    public class GameMaster : Singleton<GameMaster>
     {
-        GameState gameState;
+        public GameState gameState;
         int currentPlayer;
-        int roll;
+        public int roll;
         readonly private Random generator;
 
         public Board Board { get; private set; }
         public List<Pawn[]> Players { get; private set; }
 
-        public GameMaster()
+        public GameMaster() : base()
         {
             gameState = GameState.YOUR_TURN_NOT_ROLLED;
             currentPlayer = 0;
@@ -31,18 +32,12 @@ namespace VendyClovece.Backend
 
         private int DiceRoll() => generator.Next(1, 7);
 
-        public int Roll()
+        public void Roll()
         {
             if (gameState != GameState.YOUR_TURN_NOT_ROLLED)
-                return -1;
+                roll = -1;
 
-            roll += DiceRoll();
-            if (roll == 6)
-                return roll;
-
-            gameState = GameState.YOUR_TURN_ROLLED;
-
-            return roll;
+            ClientSend.Roll();
         }
 
         public void SelectPawn(Pawn pawn)

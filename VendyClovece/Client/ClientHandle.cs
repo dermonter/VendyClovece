@@ -1,7 +1,6 @@
-﻿using CloveceServer.Backend;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using VendyClovece.Backend;
 
 namespace VendyClovece.Client
 {
@@ -15,7 +14,8 @@ namespace VendyClovece.Client
         {
             packets = new Dictionary<int, Packet>()
             {
-                {(int) ServerPackets.WELCOME, Welcome }
+                {(int) ServerPackets.WELCOME, Welcome },
+                {(int) ServerPackets.ROLLED, Rolled }
             };
         }
 
@@ -81,7 +81,7 @@ namespace VendyClovece.Client
 
         private static void Welcome(byte[] _data)
         {
-            ByteBuffer _buffer = new ByteBuffer();
+            using ByteBuffer _buffer = new ByteBuffer();
             _buffer.WriteBytes(_data);
             _buffer.ReadInt();
             string _msg = _buffer.ReadString();
@@ -90,6 +90,17 @@ namespace VendyClovece.Client
             Console.WriteLine("Message from server: " + _msg);
             ClientTcp.myPlayerId = _myPlayerID;
             ClientSend.WelcomeReceived();
+        }
+
+        private static void Rolled(byte[] _data)
+        {
+            using ByteBuffer _buffer = new ByteBuffer();
+            _buffer.WriteBytes(_data);
+            _buffer.ReadInt();
+            int rolled = _buffer.ReadInt();
+
+            GameMaster.Instance.roll = rolled;
+            GameMaster.Instance.gameState = GameState.YOUR_TURN_ROLLED;
         }
     }
 }
