@@ -11,11 +11,10 @@ namespace VendyClovece.Backend
         GameState gameState;
         int currentPlayer;
         int roll;
+        readonly private Random generator;
 
         public Board Board { get; private set; }
         public List<Pawn[]> Players { get; private set; }
-
-        readonly Random generator;
 
         public GameMaster()
         {
