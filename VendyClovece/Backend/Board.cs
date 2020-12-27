@@ -10,13 +10,17 @@ namespace VendyClovece.Backend
 {
     public class Board
     {
+        private Func<Tile, Pawn> HasPawn;
+
         readonly Color[] playerColors;
         public Tile[] Tiles { get; private set; }
         public Tile[] EndTiles { get; private set; }
         public Tile[] StartTiles { get; private set; }
 
-        public Board()
+        public Board(Func<Tile, Pawn> hasPawn)
         {
+            HasPawn = hasPawn;
+
             playerColors = new Color[] { Color.Aquamarine, Color.DarkRed, Color.Yellow,Color.Lime };
             Tiles = new Tile[40];
             StartTiles = new Tile[16];
@@ -111,30 +115,92 @@ namespace VendyClovece.Backend
 
         private int TileIndex(Tile[] tiles, Tile target) => Array.FindIndex(tiles, t => t.Id == target.Id);
 
+        private void ReturnPawnToStart(Pawn target)
+        {
+            for (int i = target.PlayerId * 4; i < target.PlayerId * 4 + 4; i++)
+            {
+                if (HasPawn(StartTiles[i]) == null)
+                {
+                    target.CurrentTile = StartTiles[i];
+                    return;
+                }
+            }
+        }
+
+        private bool TileFull(Tile tile, Pawn origin)
+        {
+            Pawn target = null;
+            if ((target = HasPawn(tile)) == null)
+                return false;
+
+            if (target.PlayerId == origin.PlayerId)
+                return true;
+
+            ReturnPawnToStart(target);
+
+            return false;
+        }
+
         public bool Move(Pawn pawn, int moveFor)
         {
             Tile currTile = pawn.CurrentTile;
-            int index = -1;
+            Tile targetTile;
 
             if (TileIndex(StartTiles, currTile) != -1)
             {
-                if (moveFor == 6)
+                if (moveFor >= 6)
                 {
-                    pawn.CurrentTile = Tiles[pawn.PlayerId * 10];
+                    int newTileId = pawn.PlayerId * 10 + (moveFor - 6);
+                    targetTile = Tiles[newTileId % Tiles.Length];
+                    if (TileFull(targetTile, pawn))
+                        return false;
+                    pawn.CurrentTile = targetTile;
                     return true;
                 }
                 return false;
             }
 
-            if (TileIndex(EndTiles, currTile) != -1)
+            int index;
+            if ((index = TileIndex(EndTiles, currTile)) != -1)
             {
-                return false;
+                if ((index % 4) + moveFor >= 4)
+                    return false;
+
+                targetTile = EndTiles[index + moveFor];
+                if (TileFull(targetTile, pawn))
+                    return false;
+                pawn.CurrentTile = targetTile;
+                return true;
             }
 
             if ((index = TileIndex(Tiles, currTile)) != -1)
             {
                 int newTile = (index + moveFor) % Tiles.Length;
-                pawn.CurrentTile = Tiles[newTile];
+
+                if (index / 10 != newTile / 10)
+                {
+                    if (newTile / 10 == pawn.PlayerId)
+                    {
+                        // move to end
+                        int endIndex = newTile % 10;
+                        if (endIndex >= 4)
+                            return false;
+                        targetTile = EndTiles[pawn.PlayerId * 4 + endIndex];
+                        if (TileFull(targetTile, pawn))
+                            return false;
+                        pawn.CurrentTile = targetTile;
+                        return true;
+                    }
+                    else
+                    {
+                        // skip a tile
+                        newTile++;
+                    }
+                }
+                targetTile = Tiles[newTile];
+                if (TileFull(targetTile, pawn))
+                    return false;
+                pawn.CurrentTile = targetTile;
                 return true;
             }
 

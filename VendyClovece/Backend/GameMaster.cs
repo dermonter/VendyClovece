@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using VendyClovece.UI;
+using System.Linq;
 
 namespace VendyClovece.Backend
 {
@@ -22,7 +22,7 @@ namespace VendyClovece.Backend
             gameState = GameState.YOUR_TURN_NOT_ROLLED;
             currentPlayer = 0;
             generator = new Random();
-            Board = new Board();
+            Board = new Board(HasPawn);
             Players = new List<Pawn[]> 
             { 
                 new Pawn[4], 
@@ -38,7 +38,9 @@ namespace VendyClovece.Backend
             if (gameState != GameState.YOUR_TURN_NOT_ROLLED)
                 return -1;
 
-            roll = DiceRoll();
+            roll += DiceRoll();
+            if (roll == 6)
+                return roll;
 
             gameState = GameState.YOUR_TURN_ROLLED;
 
@@ -50,11 +52,15 @@ namespace VendyClovece.Backend
             if (gameState != GameState.YOUR_TURN_ROLLED)
                 return;
 
+            if (currentPlayer != pawn.PlayerId)
+                return;
+
             // Move the pawn HEHE
             Board.Move(pawn, roll);
 
-            gameState = GameState.OPONENT_TURN;
+            roll = 0;
             currentPlayer++;
+            gameState = GameState.OPONENT_TURN;
         }
 
         public IEnumerable<Clickable> InitPlayers(Texture2D pawnHitbox)
@@ -68,6 +74,9 @@ namespace VendyClovece.Backend
                 return;
 
             int rolled = DiceRoll();
+            if (rolled == 6)
+                rolled += DiceRoll();
+
             Pawn randPawn = Players[currentPlayer][generator.Next(0, 4)];
             Board.Move(randPawn, rolled);
 
@@ -75,6 +84,12 @@ namespace VendyClovece.Backend
 
             if (currentPlayer == 0)
                 gameState = GameState.YOUR_TURN_NOT_ROLLED;
+        }
+
+        private Pawn HasPawn(Tile tile)
+        {
+            IEnumerable<Pawn> pawns = Players.SelectMany(p => p);
+            return pawns.FirstOrDefault(p => p.CurrentTile.Id == tile.Id);
         }
     }
 }
