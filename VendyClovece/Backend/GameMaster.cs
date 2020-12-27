@@ -88,8 +88,8 @@ namespace VendyClovece.Backend
 
     public enum GameState
     {
-        YOUR_TURN_NOT_ROLLED,
-        YOUR_TURN_ROLLED,
-        OPONENT_TURN
+        YOUR_TURN_NOT_ROLLED = 0,
+        YOUR_TURN_ROLLED = 1,
+        OPONENT_TURN = 2
     }
 }

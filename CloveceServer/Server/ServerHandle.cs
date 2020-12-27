@@ -103,7 +103,9 @@ namespace CloveceServer.Server
             Logger.Log(LogType.info2, Globals.clients[_playerId].Socket.Client.RemoteEndPoint + " attemped roll");
             // roll logic -> send packet to user back
             // save rolled value
-            ServerSend.Rolled(_playerId);
+            int rolled = Globals.clients[_playerId].Player.Roll();
+
+            ServerSend.Rolled(_playerId, rolled);
         }
 
         private static void SelectPawn(int _playerId, byte[] _data)

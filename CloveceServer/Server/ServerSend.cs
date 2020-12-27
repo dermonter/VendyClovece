@@ -45,19 +45,20 @@ namespace CloveceServer.Server
 
         }
 
-        public static void Rolled(int _sendToPlayer)
+        public static void Rolled(int _sendToPlayer, int rolled)
         {
             using ByteBuffer _buffer = new ByteBuffer();
             _buffer.WriteInt((int)ServerPackets.ROLLED);
-            var generator = new Random();
-            int rolled = generator.Next(1, 7);
             _buffer.WriteInt(rolled);
             SendDataTo(_sendToPlayer, _buffer.ToArray());
         }
 
         public static void GameState(int _sendToPlayer)
         {
-
+            using ByteBuffer _buffer = new ByteBuffer();
+            _buffer.WriteInt((int)ServerPackets.GAME_STATE);
+            _buffer.WriteInt((int)Globals.clients[_sendToPlayer].Player.GameState);
+            SendDataTo(_sendToPlayer, _buffer.ToArray());
         }
     }
 }

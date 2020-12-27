@@ -1,7 +1,4 @@
 ﻿using CloveceServer.Server;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CloveceServer.Backend
 {
@@ -11,7 +8,7 @@ namespace CloveceServer.Backend
         {
             for (int i = 0; i < Constants.MAX_PLAYERS; i++)
             {
-                Globals.clients.Add(i, new Client.Client());
+                Globals.clients.Add(new Client.Client());
             }
         }
 

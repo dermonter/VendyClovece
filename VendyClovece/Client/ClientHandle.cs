@@ -15,7 +15,8 @@ namespace VendyClovece.Client
             packets = new Dictionary<int, Packet>()
             {
                 {(int) ServerPackets.WELCOME, Welcome },
-                {(int) ServerPackets.ROLLED, Rolled }
+                {(int) ServerPackets.ROLLED, Rolled },
+                {(int) ServerPackets.GAME_STATE, ReceivedGameState }
             };
         }
 
@@ -101,6 +102,15 @@ namespace VendyClovece.Client
 
             GameMaster.Instance.roll = rolled;
             GameMaster.Instance.gameState = GameState.YOUR_TURN_ROLLED;
+        }
+
+        private static void ReceivedGameState(byte[] _data)
+        {
+            using ByteBuffer _buffer = new ByteBuffer();
+            _buffer.WriteBytes(_data);
+            _buffer.ReadInt();
+            GameState gameState = (GameState)_buffer.ReadInt();
+            GameMaster.Instance.gameState = gameState;
         }
     }
 }
