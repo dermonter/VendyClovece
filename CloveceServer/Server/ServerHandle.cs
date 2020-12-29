@@ -119,6 +119,8 @@ namespace CloveceServer.Server
             Logger.Log(LogType.info2, Globals.clients[_playerId].Socket.Client.RemoteEndPoint + " attemped to select a pawn");
             // try selecting the pawn
             // update the board and send back a response
+            Globals.clients[_playerId].Player.Move(pawnId);
+            ServerSend.PawnMoved(_playerId, pawnId);
         }
 
         private static void GetBoard(int _playerId, byte[] _data)
@@ -129,6 +131,7 @@ namespace CloveceServer.Server
 
             Logger.Log(LogType.info2, "Received request to send boad state to " + Globals.clients[_playerId].Socket.Client.RemoteEndPoint);
             // send board state back
+            ServerSend.BoardState(_playerId);
         }
 
         private static void GetGameState(int _playerId, byte[] _data)
@@ -139,6 +142,7 @@ namespace CloveceServer.Server
 
             Logger.Log(LogType.info2, "Received request to send game state to " + Globals.clients[_playerId].Socket.Client.RemoteEndPoint);
             // send game state back
+            ServerSend.GameState(_playerId);
         }
     }
 }

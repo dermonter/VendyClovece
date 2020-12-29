@@ -16,7 +16,8 @@ namespace VendyClovece.Client
             {
                 {(int) ServerPackets.WELCOME, Welcome },
                 {(int) ServerPackets.ROLLED, Rolled },
-                {(int) ServerPackets.GAME_STATE, ReceivedGameState }
+                {(int) ServerPackets.GAME_STATE, ReceivedGameState },
+                {(int) ServerPackets.BOARD_STATE, BoardState }
             };
         }
 
@@ -111,6 +112,32 @@ namespace VendyClovece.Client
             _buffer.ReadInt();
             GameState gameState = (GameState)_buffer.ReadInt();
             GameMaster.Instance.gameState = gameState;
+        }
+
+        private static void BoardState(byte[] _data)
+        {
+            using ByteBuffer _buffer = new ByteBuffer();
+            _buffer.WriteBytes(_data);
+            _buffer.ReadInt();
+
+            ReadTiles(_buffer, GameMaster.Instance.Board.Tiles);
+            ReadTiles(_buffer, GameMaster.Instance.Board.StartTiles);
+            ReadTiles(_buffer, GameMaster.Instance.Board.EndTiles);
+        }
+
+        private static void ReadTiles(ByteBuffer _buffer, Tile[] tiles)
+        {
+            int count = _buffer.ReadInt();
+            for (int i = 0; i < count; i++)
+            {
+                // set pawn to that tile
+                // tile index, playerId, pawnId
+                int tileIndex = _buffer.ReadInt();
+                int playerId = _buffer.ReadInt();
+                int pawnId = _buffer.ReadInt();
+
+                GameMaster.Instance.Players[playerId][pawnId].CurrentTile = tiles[tileIndex];
+            }
         }
     }
 }

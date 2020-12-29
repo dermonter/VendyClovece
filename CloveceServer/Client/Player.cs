@@ -28,6 +28,14 @@ namespace CloveceServer.Client
             return Rolled;
         }
 
+        public bool Move(int pawnId)
+        {
+            Rolled = 0;
+            GameState = GameState.OPONENT_TURN;
+            GameStateChanged = true;
+            return true;
+        }
+
         public Player(int id, GameState gameState)
         {
             Id = id;
