@@ -1,9 +1,8 @@
 ﻿using CloveceServer.Backend;
 using CloveceServer.Server;
 using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
-using System.Text;
+using System.Linq;
 
 namespace CloveceServer.Client
 {
@@ -29,7 +28,7 @@ namespace CloveceServer.Client
             receiveBuffer = new byte[Socket.ReceiveBufferSize];
             Stream.BeginRead(receiveBuffer, 0, Socket.ReceiveBufferSize, ReceivedData, null);
             GameState gameState = playerId == 0 ? GameState.YOUR_TURN_NOT_ROLLED : GameState.OPONENT_TURN;
-            Player = new Player(playerId, gameState);
+            Player = new Player(playerId, gameState, GameMaster.Instance.GetPawns(playerId).ToArray());
             ServerSend.Welcome(playerId, "Welcome to the server");
         }
 

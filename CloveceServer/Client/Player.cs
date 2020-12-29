@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CloveceServer.Backend;
+﻿using CloveceServer.Backend;
+using System;
 
 namespace CloveceServer.Client
 {
@@ -12,7 +10,7 @@ namespace CloveceServer.Client
         public int Id { get; private set; }
         public int Rolled { get; private set; }
         public GameState GameState { get; private set; }
-        private (int x, int y)[] pawns;
+        public (TileType tile, int index)[] Pawns { get; private set; }
 
         public bool GameStateChanged { get; set; }
 
@@ -28,22 +26,27 @@ namespace CloveceServer.Client
             return Rolled;
         }
 
-        public bool Move(int pawnId)
+        public void Moved()
         {
             Rolled = 0;
             GameState = GameState.OPONENT_TURN;
             GameStateChanged = true;
-            return true;
         }
 
-        public Player(int id, GameState gameState)
+        public void YourTurn()
+        {
+            GameState = GameState.YOUR_TURN_NOT_ROLLED;
+            GameStateChanged = true;
+        }
+
+        public Player(int id, GameState gameState, (TileType, int)[] pawns)
         {
             Id = id;
             generator = new Random();
             Rolled = 0;
             GameState = gameState;
             GameStateChanged = true;
-            pawns = new (int, int)[4];
+            Pawns = pawns;
         }
     }
 }

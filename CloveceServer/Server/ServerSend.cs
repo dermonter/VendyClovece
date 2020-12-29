@@ -38,7 +38,17 @@ namespace CloveceServer.Server
 
         public static void PawnMoved(int _sendToPlayer, int pawnId)
         {
+            bool moved = GameMaster.Instance.Move(_sendToPlayer, pawnId);
+            if (moved)
+                GameMaster.Instance.AdvancePlayer();
+            for (int i = 0; i < Constants.MAX_PLAYERS; i++)
+            {
+                if (!Globals.clients[i].isPlaying)
+                    continue;
 
+                BoardState(i);
+                GameState(i);
+            }
         }
 
         public static void BoardState(int _sendToPlayer)

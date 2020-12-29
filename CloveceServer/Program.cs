@@ -50,7 +50,7 @@ namespace CloveceServer
         private static void Initialize()
         {
             gameMaster = new GameMaster();
-            gameMaster.InitGame(1);
+            gameMaster.InitGame(4);
         }
 
         private static void Update()

@@ -44,15 +44,10 @@ namespace VendyClovece.Backend
             if (gameState != GameState.YOUR_TURN_ROLLED)
                 return;
 
-            if (currentPlayer != pawn.PlayerId)
+            if (ClientTcp.myPlayerId != pawn.PlayerId)
                 return;
 
-            // Move the pawn HEHE
-            Board.Move(pawn, roll);
-
-            roll = 0;
-            currentPlayer++;
-            gameState = GameState.OPONENT_TURN;
+            ClientSend.SelectPawn(pawn.Id);
         }
 
         public IEnumerable<Clickable> InitPlayers(Texture2D pawnHitbox)
@@ -62,6 +57,8 @@ namespace VendyClovece.Backend
 
         public void EmulateEnemy()
         {
+            return;
+
             if (gameState != GameState.OPONENT_TURN)
                 return;
 

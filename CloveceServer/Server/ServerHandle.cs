@@ -119,7 +119,6 @@ namespace CloveceServer.Server
             Logger.Log(LogType.info2, Globals.clients[_playerId].Socket.Client.RemoteEndPoint + " attemped to select a pawn");
             // try selecting the pawn
             // update the board and send back a response
-            Globals.clients[_playerId].Player.Move(pawnId);
             ServerSend.PawnMoved(_playerId, pawnId);
         }
 
