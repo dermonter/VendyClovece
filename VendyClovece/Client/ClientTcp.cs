@@ -28,7 +28,7 @@ namespace VendyClovece.Client
                 NoDelay = false
             };
 
-            receiveBuffer = new byte[BUFFER_SIZE];
+            receiveBuffer = new byte[Socket.ReceiveBufferSize];
             Socket.BeginConnect(ip, port, ConnectionCallback, Socket);
         }
 
@@ -41,7 +41,7 @@ namespace VendyClovece.Client
 
             Socket.NoDelay = true;
             Stream = Socket.GetStream();
-            Stream.BeginRead(receiveBuffer, 0, BUFFER_SIZE, ReceivedData, null);
+            Stream.BeginRead(receiveBuffer, 0, Socket.ReceiveBufferSize, ReceivedData, null);
         }
 
         private static void ReceivedData(IAsyncResult _result)
@@ -58,7 +58,7 @@ namespace VendyClovece.Client
                 byte[] _tempBuffer = new byte[_byteLength];
                 Array.Copy(receiveBuffer, _tempBuffer, _byteLength);
                 ClientHandle.HandleData(_tempBuffer);
-                Stream.BeginRead(receiveBuffer, 0, BUFFER_SIZE, ReceivedData, null);
+                Stream.BeginRead(receiveBuffer, 0, Socket.ReceiveBufferSize, ReceivedData, null);
             }
             catch (Exception _ex)
             {
