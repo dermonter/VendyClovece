@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using VendyClovece.Backend;
+using VendyClovece.Online;
 
 namespace VendyClovece.Client
 {
@@ -14,7 +15,7 @@ namespace VendyClovece.Client
         {
             packets = new Dictionary<int, Packet>()
             {
-                {(int) ServerPackets.WELCOME, Welcome },
+                {(int) ServerPackets.PLAYER_REGISTERED, Welcome },
                 {(int) ServerPackets.ROLLED, Rolled },
                 {(int) ServerPackets.GAME_STATE, ReceivedGameState },
                 {(int) ServerPackets.BOARD_STATE, BoardState }
@@ -88,7 +89,6 @@ namespace VendyClovece.Client
             _buffer.ReadInt();
             string _msg = _buffer.ReadString();
             int _myPlayerID = _buffer.ReadInt();
-            _buffer.Dispose();
             Console.WriteLine("Message from server: " + _msg);
             ClientTcp.myPlayerId = _myPlayerID;
             ClientSend.WelcomeReceived();

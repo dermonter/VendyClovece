@@ -1,5 +1,6 @@
 ﻿using System;
 using VendyClovece.Backend;
+using VendyClovece.Online;
 
 namespace VendyClovece.Client
 {
@@ -26,7 +27,7 @@ namespace VendyClovece.Client
         public static void WelcomeReceived()
         {
             using ByteBuffer _buffer = new ByteBuffer();
-            _buffer.WriteInt((int)ClientPackets.WELCOME_RECEIVED);
+            //_buffer.WriteInt((int)ClientPackets.WELCOME_RECEIVED);
             _buffer.WriteString("Test player name");
             SendDataToServer(_buffer.ToArray());
         }
@@ -55,9 +56,9 @@ namespace VendyClovece.Client
 
         public static void GetGameState()
         {
-            using ByteBuffer _buffer = new ByteBuffer();
-            _buffer.WriteInt((int)ClientPackets.GET_GAMESTATE);
-            SendDataToServer(_buffer.ToArray());
+            using ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInt((int)ClientPackets.GET_GAMESTATE);
+            SendDataToServer(buffer.ToArray());
         }
     }
 }

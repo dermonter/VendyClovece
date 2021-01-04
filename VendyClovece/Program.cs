@@ -1,5 +1,5 @@
 ﻿using System;
-using VendyClovece.Client;
+using VendyClovece.Online;
 
 namespace VendyClovece
 {
@@ -8,7 +8,8 @@ namespace VendyClovece
         [STAThread]
         static void Main()
         {
-            ClientTcp.ConnectToServer();
+            ClientTcp.Init();
+            ClientSend.RegisterPlayer();
 
             using var game = new GameLogic();
             game.Run();

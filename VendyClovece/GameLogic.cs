@@ -163,13 +163,15 @@ namespace VendyClovece
                 case ProgramState.GAME:
                     DrawBoard.Draw(_spriteBatch, tileTexture, origin, _gameMaster.Board, offset);
                     DrawBoard.DrawPlayers(_spriteBatch, origin, _gameMaster.Players, offset);
-
                     if (!string.IsNullOrEmpty(rolledText))
                         _spriteBatch.DrawString(font, rolledText, new Vector2(50, 5), Color.Black);
                     break;
                 default:
                     break;
             }
+
+            _spriteBatch.DrawString(font, ClientTcp.myPlayerId.ToString(), new Vector2(0, 0), Color.Black);
+
             _spriteBatch.End();
 
             base.Draw(gameTime);

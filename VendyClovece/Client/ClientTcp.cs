@@ -12,11 +12,13 @@ namespace VendyClovece.Client
         private static int port = 42069;
         public static int myPlayerId = 0;
 
+        public static string txt;
+
         public static TcpClient Socket { get; private set; }
         public static NetworkStream Stream { get; private set; }
         private static byte[] receiveBuffer;
 
-        private const int BUFFER_SIZE = 4096;
+        private const int BUFFER_SIZE = 1024*1024;
 
         public static void ConnectToServer()
         {
@@ -25,11 +27,10 @@ namespace VendyClovece.Client
             {
                 ReceiveBufferSize = BUFFER_SIZE,
                 SendBufferSize = BUFFER_SIZE,
-                NoDelay = false
+                NoDelay = true
             };
 
-            receiveBuffer = new byte[Socket.ReceiveBufferSize];
-            Socket.BeginConnect(ip, port, ConnectionCallback, Socket);
+            Socket.Connect(ip, port);
         }
 
         private static void ConnectionCallback(IAsyncResult _result)

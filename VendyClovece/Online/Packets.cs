@@ -1,17 +1,16 @@
-﻿namespace VendyClovece.Backend
+﻿namespace VendyClovece.Online
 {
     public enum ServerPackets
     {
-        WELCOME = 0,
-        PAWN_MOVED = 1,
-        BOARD_STATE = 2,
-        ROLLED = 3,
-        GAME_STATE = 4
+        PLAYER_REGISTERED = 0,
+        BOARD_STATE = 1,
+        ROLLED = 2,
+        GAME_STATE = 3
     }
 
     public enum ClientPackets
     {
-        WELCOME_RECEIVED = 0,
+        REGISTER_PLAYER = 0,
         ROLL = 1,
         SELECT_PAWN = 2,
         GET_BOARD = 3,
