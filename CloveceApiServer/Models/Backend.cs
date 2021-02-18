@@ -49,8 +49,22 @@ namespace CloveceApiServer.Models
             lock (games[id])
             {
                 reference = new GameModel(games[id]);
+                if (!reference.IsRunning)
+                    return null;
             }
             return reference;
+        }
+
+        public static int Roll(long gameId, int playerId)
+        {
+            int rolled = -1;
+            if (!games.ContainsKey(gameId))
+                return rolled;
+            lock (games[gameId])
+            {
+                rolled = games[gameId].Roll(playerId);
+            }
+            return rolled;
         }
     }
 }
