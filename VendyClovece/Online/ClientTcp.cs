@@ -22,7 +22,11 @@ namespace VendyClovece.Online
 
         public static void SendPacket(byte[] data)
         {
-            TcpClient socket = new TcpClient();
+            TcpClient socket = new TcpClient
+            {
+                ReceiveBufferSize = BUFFER_SIZE,
+                SendBufferSize = BUFFER_SIZE,
+            };
 
             socket.Connect(ip, port);
             NetworkStream stream = socket.GetStream();
@@ -37,7 +41,7 @@ namespace VendyClovece.Online
 
                 byte[] tempBuffer = new byte[receiveSize];
                 Array.Copy(receiveBuffer, 0, tempBuffer, 0, receiveSize);
-                buffer.WriteBytes(receiveBuffer);
+                buffer.WriteBytes(tempBuffer);
 
                 ClientHandle.HandlePackets(buffer);
             }

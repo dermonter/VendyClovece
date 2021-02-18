@@ -17,7 +17,30 @@ namespace SimpleServer.Server
                 { ClientPackets.REGISTER_PLAYER, RegisterPlayer },
                 { ClientPackets.GET_BOARD, GetBoard },
                 { ClientPackets.GET_GAMESTATE, GetGameState },
+                { ClientPackets.ROLL, Roll },
+                { ClientPackets.SELECT_PAWN, SelectPawn }
             };
+        }
+
+        private void SelectPawn(TcpClient client, ByteBuffer data)
+        {
+            int playerId = data.ReadInt();
+            int pawnId = data.ReadInt();
+
+            bool moved = GameMaster.Instance.Move(playerId, pawnId);
+            if (moved)
+                GameMaster.Instance.AdvancePlayer();
+            // send board state and game state
+            NetworkStream stream = client.GetStream();
+            stream.Write(ServerSend.SendPawnMoved(playerId));
+        }
+
+        private void Roll(TcpClient client, ByteBuffer data)
+        {
+            int playerId = data.ReadInt();
+            int rolled = GameMaster.Instance.Players[playerId].Roll();
+            NetworkStream stream = client.GetStream();
+            stream.Write(ServerSend.SendRolled(rolled));
         }
 
         private void GetGameState(TcpClient client, ByteBuffer data)
@@ -55,7 +78,8 @@ namespace SimpleServer.Server
                 return;
 
             NetworkStream stream = client.GetStream();
-            stream.Write(ServerSend.RegisteredPlayer(playerId));
+            var sendData = ServerSend.RegisteredPlayer(playerId);
+            stream.Write(sendData);
         }
     }
 }

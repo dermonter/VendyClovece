@@ -32,6 +32,20 @@ namespace SimpleServer.Server
             return sendBuffer.ToArray();
         }
 
+        public static byte[] SendPawnMoved(int playerId)
+        {
+            using ByteBuffer sendBuffer = new ByteBuffer();
+            // number of packets
+            sendBuffer.WriteInt(2);
+
+            // board state
+            WriteBoardStateToBuffer(sendBuffer);
+
+            // game state
+            WriteGameStateToBuffer(sendBuffer, playerId);
+            return sendBuffer.ToArray();
+        }
+
         public static byte[] BoardState()
         {
             using ByteBuffer sendBuffer = new ByteBuffer();
@@ -47,6 +61,15 @@ namespace SimpleServer.Server
             sendBuffer.WriteInt(1);
             sendBuffer.WriteInt((int)ServerPackets.GAME_STATE);
             WriteGameStateToBuffer(sendBuffer, playerId);
+            return sendBuffer.ToArray();
+        }
+
+        public static byte[] SendRolled(int rolled)
+        {
+            using ByteBuffer sendBuffer = new ByteBuffer();
+            sendBuffer.WriteInt(1);
+            sendBuffer.WriteInt((int)ServerPackets.ROLLED);
+            sendBuffer.WriteInt(rolled);
             return sendBuffer.ToArray();
         }
 

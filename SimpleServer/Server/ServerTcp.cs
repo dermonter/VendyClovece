@@ -32,7 +32,8 @@ namespace SimpleServer.Server
                     Console.WriteLine("Waiting for a connection");
 
                     TcpClient client = socket.AcceptTcpClient();
-                    client.NoDelay = true;
+                    client.ReceiveBufferSize = BUFFER_SIZE;
+                    client.SendBufferSize = BUFFER_SIZE;
 
                     NetworkStream stream = client.GetStream();
                     int receiveSize;

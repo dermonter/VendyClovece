@@ -67,7 +67,7 @@ namespace VendyClovece.Online
                 int tileIndex = _buffer.ReadInt();
                 int playerId = _buffer.ReadInt();
                 int pawnId = _buffer.ReadInt();
-
+                GameMaster gm = GameMaster.Instance;
                 GameMaster.Instance.Players[playerId][pawnId].CurrentTile = tiles[tileIndex];
             }
         }

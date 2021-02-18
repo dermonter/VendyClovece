@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using VendyClovece.UI;
 using System.Linq;
-using VendyClovece.Client;
+using VendyClovece.Online;
 
 namespace VendyClovece.Backend
 {

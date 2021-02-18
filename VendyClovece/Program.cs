@@ -1,4 +1,5 @@
 ﻿using System;
+using VendyClovece.Backend;
 using VendyClovece.Online;
 
 namespace VendyClovece
@@ -9,7 +10,6 @@ namespace VendyClovece
         static void Main()
         {
             ClientTcp.Init();
-            ClientSend.RegisterPlayer();
 
             using var game = new GameLogic();
             game.Run();

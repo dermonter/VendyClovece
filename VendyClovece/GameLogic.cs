@@ -7,7 +7,7 @@ using VendyClovece.Backend;
 using VendyClovece.Graphics;
 using VendyClovece.UI;
 using System.Linq;
-using VendyClovece.Client;
+using VendyClovece.Online;
 
 namespace VendyClovece
 {
@@ -91,12 +91,14 @@ namespace VendyClovece
                         break;
                 }
             }
+
+            ClientSend.RegisterPlayer();
         }
 
         private void StartGameButton_Click(object sender, EventArgs e)
         {
-            ClientSend.GetGameState();
-            ClientSend.GetBoard();
+            //ClientSend.GetGameState();
+            //ClientSend.GetBoard();
             ProgramState = ProgramState.GAME;
         }
 

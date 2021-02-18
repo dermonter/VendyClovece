@@ -9,6 +9,7 @@ namespace VendyClovece.Online
         public static void RegisterPlayer()
         {
             using ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInt(1);
             buffer.WriteInt((int)ClientPackets.REGISTER_PLAYER);
             ClientTcp.SendPacket(buffer.ToArray());
         }
@@ -16,6 +17,7 @@ namespace VendyClovece.Online
         public static void Roll()
         {
             using ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInt(1);
             buffer.WriteInt((int)ClientPackets.ROLL);
             buffer.WriteInt(ClientTcp.myPlayerId);
             ClientTcp.SendPacket(buffer.ToArray());
@@ -24,6 +26,7 @@ namespace VendyClovece.Online
         public static void SelectPawn(int pawnId)
         {
             using ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInt(1);
             buffer.WriteInt((int)ClientPackets.GET_BOARD);
             buffer.WriteInt(ClientTcp.myPlayerId);
             buffer.WriteInt(pawnId);
@@ -33,6 +36,7 @@ namespace VendyClovece.Online
         public static void GetBoard()
         {
             using ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInt(1);
             buffer.WriteInt((int)ClientPackets.GET_BOARD);
             ClientTcp.SendPacket(buffer.ToArray());
         }
@@ -40,6 +44,7 @@ namespace VendyClovece.Online
         public static void GetGameState()
         {
             using ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInt(1);
             buffer.WriteInt((int)ClientPackets.GET_GAMESTATE);
             buffer.WriteInt(ClientTcp.myPlayerId);
             ClientTcp.SendPacket(buffer.ToArray());

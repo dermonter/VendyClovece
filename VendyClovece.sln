@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VendyClovece", "VendyClovec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloveceServer", "CloveceServer\CloveceServer.csproj", "{6802A4D9-5103-41E9-B8C4-BB095436027A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleServer", "SimpleServer\SimpleServer.csproj", "{AF1D1991-74DD-46FC-A549-135321406C72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleServer", "SimpleServer\SimpleServer.csproj", "{AF1D1991-74DD-46FC-A549-135321406C72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloveceApiServer", "CloveceApiServer\CloveceApiServer.csproj", "{3A3EFEF2-F3C9-4032-8BD9-9F153CEEA2BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{AF1D1991-74DD-46FC-A549-135321406C72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF1D1991-74DD-46FC-A549-135321406C72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF1D1991-74DD-46FC-A549-135321406C72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A3EFEF2-F3C9-4032-8BD9-9F153CEEA2BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A3EFEF2-F3C9-4032-8BD9-9F153CEEA2BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A3EFEF2-F3C9-4032-8BD9-9F153CEEA2BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A3EFEF2-F3C9-4032-8BD9-9F153CEEA2BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
