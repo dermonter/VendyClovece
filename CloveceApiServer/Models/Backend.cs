@@ -66,5 +66,20 @@ namespace CloveceApiServer.Models
             }
             return rolled;
         }
+
+        public static (GameModel gameState, bool result) Move(long gameId, int playerId, int pieceId)
+        {
+            GameModel reference = null;
+            bool result = false;
+            if (!games.ContainsKey(gameId))
+                return (reference, result);
+
+            lock (games[gameId])
+            {
+                result = games[gameId].Move(playerId, pieceId);
+                reference = new GameModel(games[gameId]);
+            }
+            return (reference, result);
+        }
     }
 }

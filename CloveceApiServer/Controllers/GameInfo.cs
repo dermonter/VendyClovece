@@ -1,11 +1,5 @@
 ﻿using CloveceApiServer.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace CloveceApiServer.Controllers
 {
@@ -31,10 +25,10 @@ namespace CloveceApiServer.Controllers
         }
 
         [HttpPost]
-        public string Post()
+        public HttpResponseData Post()
         {
-            Backend.CreateGame();
-            return "Game created";
+            long gameId = Backend.CreateGame();
+            return new HttpResponseData("Game created", gameId);
         }
     }
 }
